@@ -194,7 +194,7 @@ int main()
 
     if (passAll)
     {
-        int answer = findMST(Edges, numOfNodes, 0);
+        long long answer = findMST(Edges, numOfNodes, 0);
         fout << "YES" << "\n" << answer;
     }
     else
