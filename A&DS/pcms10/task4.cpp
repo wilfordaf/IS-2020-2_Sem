@@ -189,6 +189,7 @@ int main()
         if (!statement)
         {
             passAll = false;
+            break;
         }
     }
 
