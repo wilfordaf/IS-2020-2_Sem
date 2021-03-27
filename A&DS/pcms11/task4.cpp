@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <set>
 using namespace std;
 
 const long long INF = (long long) 8e18;
@@ -20,24 +21,24 @@ public:
     }
 };
 
-void dfs(int node, vector<bool>& infoAboutNodes, vector<vector<int>>& availableWays){
+void dfs(int node, vector<bool>& infoAboutNodes, vector<vector<int>>& availableWays, vector<long long>& d){
     infoAboutNodes[node] = true;
+    d[node] = -INF;
     for (auto newNode : availableWays[node])
     {
         if (!infoAboutNodes[newNode])
         {
-            dfs(newNode, infoAboutNodes, availableWays);
+            dfs(newNode, infoAboutNodes, availableWays, d);
         }
     }
 }
 
 void fordBellman(int s, int numOfNodes, vector<long long>& d, vector<int>& prev, vector<Edge>& Edges, vector<bool>& infoAboutNodes, vector<vector<int>>& availableWays)
 {
-    int v = -1;
     d[s] = 0;
+    set<int> strangeNodes;
     for (int i = 0; i < numOfNodes; i++)
     {
-        v = -1;
         for (Edge e : Edges)
         {
             if (d[e.startNode] < INF)
@@ -46,28 +47,30 @@ void fordBellman(int s, int numOfNodes, vector<long long>& d, vector<int>& prev,
                 {
                     d[e.endNode] = max(-INF, d[e.startNode] + e.length);
                     prev[e.endNode] = e.startNode;
-                    v = e.endNode;
                 }
+            }
+        }
+
+    }
+
+    for (Edge e : Edges)
+    {
+        if (d[e.startNode] < INF)
+        {
+            if (d[e.endNode] > d[e.startNode] + e.length)
+            {
+                strangeNodes.insert(e.endNode);
             }
         }
     }
 
-    if (v != -1)
+    for (auto vert : strangeNodes)
     {
         for (int i = 0; i < numOfNodes; i++)
         {
-            v = prev[v];
+            vert = prev[vert];
         }
-
-        dfs(v, infoAboutNodes, availableWays);
-
-        for (int i = 0; i < numOfNodes; i++)
-        {
-            if (infoAboutNodes[i])
-            {
-               d[i] = -INF;
-            }
-        }
+        dfs(vert, infoAboutNodes, availableWays, d);
     }
 }
 
