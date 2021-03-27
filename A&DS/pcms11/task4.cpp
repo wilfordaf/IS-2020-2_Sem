@@ -1,19 +1,18 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <limits>
 #include <algorithm>
 using namespace std;
 
-const long long INF = 8e18;
+const long long INF = (long long) 8e18;
 
 class Edge
 {
 public:
     int startNode;
     int endNode;
-    int length;
-    Edge(int startNode_, int endNode_, int length_)
+    long long length;
+    Edge(int startNode_, int endNode_, long long length_)
     {
         startNode = startNode_;
         endNode = endNode_;
@@ -21,23 +20,21 @@ public:
     }
 };
 
-void dfs(int node, vector<bool>& infoAboutNodesDFS, vector<vector<int>>& availableWaysDFS){
-    infoAboutNodesDFS[node] = true;
-    for (int i = 0; i < availableWaysDFS[node].size(); i++)
+void dfs(int node, vector<bool>& infoAboutNodes, vector<vector<int>>& availableWays){
+    infoAboutNodes[node] = true;
+    for (auto newNode : availableWays[node])
     {
-        int updNode = availableWaysDFS[node][i];
-        if (!infoAboutNodesDFS[updNode])
+        if (!infoAboutNodes[newNode])
         {
-            dfs(updNode, infoAboutNodesDFS, availableWaysDFS);
+            dfs(newNode, infoAboutNodes, availableWays);
         }
     }
 }
 
-void fordBellman(int s, int numOfNodes, vector<long long>& d, vector<int>& prev, vector<Edge>& Edges,
-                              vector<bool>& infoAboutNodes, vector<vector<int>>& availableWays)
+void fordBellman(int s, int numOfNodes, vector<long long>& d, vector<int>& prev, vector<Edge>& Edges, vector<bool>& infoAboutNodes, vector<vector<int>>& availableWays)
 {
+    int v = -1;
     d[s] = 0;
-    int v;
     for (int i = 0; i < numOfNodes; i++)
     {
         v = -1;
@@ -82,19 +79,20 @@ int main()
     int numOfNodes, numOfEdges, highlightedNode;
     fin >> numOfNodes >> numOfEdges >> highlightedNode;
 
+
     vector<Edge> Edges;
-    vector<long long> d(numOfNodes, INF);
     vector<int> prev(numOfNodes, -1);
-    vector<vector<int>> availableWays(numOfNodes, vector<int>());
+    vector<vector<int>> availableWays(numOfNodes);
     vector<bool> infoAboutNodes(numOfNodes, false);
+    vector<long long> d(numOfNodes, INF);
 
     for (int i = 0; i < numOfEdges; i++)
     {
         int v1, v2;
         long long w;
         fin >> v1 >> v2 >> w;
-        Edges.push_back(Edge(v1-1, v2-1, w));
-        availableWays[v1-1].push_back(v2-1);
+        Edges.emplace_back(Edge(v1 - 1, v2 - 1, w));
+        availableWays[v1 - 1].push_back(v2 - 1);
     }
 
     fordBellman(highlightedNode - 1, numOfNodes, d, prev, Edges, infoAboutNodes, availableWays);
