@@ -1,0 +1,20 @@
+Pulling https://github.com/wilfordaf/IS-2020-prog-2-sem/homework4
+Pull finished
+It's compiled
+It's OK
+In file included from main.cpp:1:
+predicate.hpp: In function 'bool isPalindrome(Iterator, Iterator, Predicate) [with Iterator = __gnu_cxx::__normal_iterator<int*, std::vector<int> >; Predicate = check()::<lambda(int, int)>]':
+predicate.hpp:174:1: warning: control reaches end of non-void function [-Wreturn-type]
+  174 | }
+      | ^
+predicate.hpp: In function 'bool isPalindrome(Iterator, Iterator, Predicate) [with Iterator = __gnu_cxx::__normal_iterator<int*, std::vector<int> >; Predicate = check()::<lambda(int, int)>]':
+predicate.hpp:174:1: warning: control reaches end of non-void function [-Wreturn-type]
+  174 | }
+      | ^
+predicate.hpp: In function 'bool isPalindrome(Iterator, Iterator, Predicate) [with Iterator = std::_Rb_tree_const_iterator<int>; Predicate = check()::<lambda(int, int)>]':
+predicate.hpp:174:1: warning: control reaches end of non-void function [-Wreturn-type]
+  174 | }
+      | ^
+
+
+
